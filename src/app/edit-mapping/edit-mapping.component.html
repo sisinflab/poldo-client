@@ -1,0 +1,12 @@
+<div *ngIf="!isExample">
+  Mapping file:
+  <button class="btn">
+    <input #mappingInput name="file" type="file" (change)="loadMapping($event)"/>
+  </button>
+</div>
+<div class="topSpace">
+  <textarea [(ngModel)]="mappingFile" class="form-control" rows="15"></textarea>
+</div>
+<div class="topSpace">
+  <button (click)="save()" class="btn">Save</button>
+</div>

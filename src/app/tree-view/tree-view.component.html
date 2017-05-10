@@ -1,0 +1,68 @@
+<div>
+  <div *ngFor="let child of children; let i = index">
+    <div class="row topSpace">
+      <div class="col-xs-3"><b>Path:</b></div><div class="col-xs-9">{{path}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><b>Label:</b></div><div class="col-xs-9" [ngClass]="{'attribute': child.isAttribute}" style="font-weight: bold">{{outputSubList[i].label}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><b>URI:</b></div><div class="col-xs-9">{{outputSubList[i].uri}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><label for="hasValue">Has Value:</label></div>
+      <div class="col-xs-9">
+        <input type="checkbox" id="hasValue" [ngModel]="outputSubList[i].hasValue" (ngModelChange)="changeHasValue($event, i)">
+      </div>
+    </div>
+    <div *ngIf="outputSubList[i].hasValue">
+      <div class="row">
+        <div *ngIf="!outputSubList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="class" [ngModel]="outputSubList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+        <div *ngIf="outputSubList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="samePropertyOf" [ngModel]="outputSubList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+      </div>
+      <div [hidden]="isURL(outputSubList[i].rdfClass) || isClassPristine(i)"
+           class="alert alert-danger">
+        Class must be an URI!
+      </div>
+      <div class="row">
+        <div class="col-xs-3"><label for="datatype">Datatype Property:</label></div>
+        <div class="col-xs-9">
+          <input type="checkbox" id="datatype" [ngModel]="outputSubList[i].isDatatypeProperty" (ngModelChange)="changeDatatypeProperty($event, i)">
+        </div>
+      </div>
+      <div class="row bottomSpace">
+        <div class="col-xs-3"><label for="content">Content type:</label></div>
+        <div class="col-xs-9">
+          <select class="form-control" id="content" [ngModel]="outputSubList[i].contentType" (ngModelChange)="changeContentType($event, i)">
+            <option value="String">String</option>
+            <option value="Number">Number</option>
+            <option value="Boolean">Boolean</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <app-tree-view [children]="child.children" [path]="path+outputSubList[i].label+separator" (outputChange)="emitChanges($event)"></app-tree-view>
+    </div>
+  </div>
+</div>
+
+
+<!--
+[checked]="outputSubList[i].hasValue"
+[checked]="child.isData"
+<ul>
+  <li *ngFor="let child of children">
+    {{child.label}}
+    <ul>
+      <app-tree-view [children]="child.children"></app-tree-view>
+    </ul>
+  </li>
+</ul>
+
+
+eliminato id:
+        <div *ngIf="!outputSubList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" id="class" placeholder="class" [ngModel]="outputSubList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+
+
+-->

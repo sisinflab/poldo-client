@@ -1,0 +1,35 @@
+<p></p>
+<button class="btn" (click)="loadForecastExample()">Load Forecast Example</button>
+<p></p>
+<div *ngIf="!isExample">
+  Mapping file:
+<button class="btn">
+  <input #mappingInput name="file" type="file" (change)="loadMapping($event)"/>
+</button>
+</div>
+<div class="form-group">
+  <label for="comment">Query:</label>
+  <textarea class="form-control" rows="15" id="comment" [(ngModel)]="query" required></textarea>
+</div>
+<button class="btn" [disabled]=checkMappingAndQuery() (click)="runQuery()">Run Query</button>
+<button class="btn" (click)="reset()">Reset</button>
+<p></p>
+<div class="alert alert-info" *ngIf="querySent">Query Sent, wait for the answer.</div>
+
+<table *ngIf="responseIsValid" class="table">
+  <thead>
+  <tr>
+    <th *ngFor="let variabile of jsonResponse.head.vars; let i = index">
+      {{variabile}}
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let binding of jsonResponse.results.bindings; let i = index">
+    <td *ngFor="let entry of jsonResponse.head.vars | keyValuePipe; let j = index">
+      {{binding[entry.value].value}}
+    </td>
+  </tr>
+  </tbody>
+</table>
+

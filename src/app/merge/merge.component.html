@@ -1,0 +1,13 @@
+<div *ngFor="let fileName of fileNameArray; let i = index">
+  Mapping file {{i}}:
+  <button class="btn inputWrapper">Load File
+    <input class="fileInput" #inputFile id="inputFile" name="file" type="file" (change)="loadFile($event,i)"/>
+  </button>
+  <button class="btn" (click)="removeFile(i)" *ngIf = "moreThanTwoFiles()">Remove file</button>
+  {{fileName}}
+  <p></p>
+</div>
+<p></p>
+<button class="btn" (click)="addFile()">Add new file</button>
+<button class="btn" (click)="mergeFiles()">Merge Files</button>
+

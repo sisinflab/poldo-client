@@ -1,0 +1,1 @@
+http://api.openweathermap.org/data/2.5/forecast?mode=xml&q=London&appid=b28c143078073301fb80d18ae307c2d0

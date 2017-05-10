@@ -1,0 +1,170 @@
+
+<div class="container-fluid" *ngIf="step === 1 || step == 2">
+  <p></p>
+  <button class="btn" (click)="loadForecastExample()">Load Forecast Example</button>
+  <p></p>
+  <form (ngSubmit)="firstRequest()" #firstForm="ngForm">
+    <div class="form-group">
+      <label for="serviceURL">Service URL</label>
+      <input type="text" class="form-control" id="serviceURL"
+             required
+             [(ngModel)]="serviceURL" name="serviceURL"
+             #urlInput="ngModel">
+    </div>
+    <div [hidden]="urlInput.valid || urlInput.pristine"
+         class="alert alert-danger">
+      Service URL is required
+    </div>
+
+    <div class="form-group">
+      <label for="output">Output</label>
+      <textarea class="form-control" rows="15" id="output"
+                required
+                [(ngModel)]="output" name="output"
+                #outputText="ngModel"></textarea>
+    </div>
+    <div [hidden]="outputText.valid || outputText.pristine"
+         class="alert alert-danger">
+      Output is required
+    </div>
+
+
+    <div class="form-group">
+      <label class="radio-inline"><input type="radio" name="language" [(ngModel)]="language" value="xml" required>XML</label>
+      <label class="radio-inline"><input type="radio" name="language" [(ngModel)]="language" value="json">JSON</label>
+    </div>
+
+    <div class="form-group">
+      <label for="namespace">Custom Namespace</label>
+      <input type="text" class="form-control" id="namespace"
+             [(ngModel)]="namespace" name="namespace">
+    </div>
+
+    <button type="submit" class="btn" [disabled]="step === 2">Submit</button>
+    <button type="button" class="btn" (click)="firstForm.reset()">Reset</button>
+
+  </form>
+</div>
+
+<div class="container-fluid" *ngIf="step === 3 || step == 4">
+  <h3>Inputs</h3>
+  <div class="form-group bottomSpace" *ngFor="let input of inputList; let i = index">
+    <div class="row">
+      <div class="col-xs-3"><b>Label:</b></div><div class="col-xs-9">{{input.label}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><b>URI:</b></div><div class="col-xs-9">{{input.uri}}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><label for="mandatory">Mandatory:</label></div><div class="col-xs-9"> <input type="checkbox" id="mandatory" [ngModel]="inputList[i].isMandatory" (ngModelChange)="changeIsMandatory($event, i)"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3"><label for="datatype">Datatype Property:</label></div><div class="col-xs-9"><input type="checkbox" id="datatype" [ngModel]="inputList[i].isDatatypeProperty" (ngModelChange)="changeIsDatatypeProperty($event, i)"></div>
+    </div>
+    <div class="row">
+      <div *ngIf="!inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="class" [ngModel]="inputList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+      <div *ngIf="inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="samePropertyOf" [ngModel]="inputList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+    </div>
+    <div [hidden]="isURL(inputList[i].rdfClass) || isClassPristine(i)"
+         class="alert alert-danger">
+      Class must be an URI!
+    </div>
+    <div class="row">
+      <div class="col-xs-12"><input type="text" class="form-control" id="value" placeholder="default value" [ngModel]="inputList[i].defaultValue" (ngModelChange)="changeDefaultValue($event, i)"></div>
+    </div>
+  </div>
+  <h3>Outputs</h3>
+
+  <app-tree-view [children]="outputs" [path]="separator" (outputChange)="writeOutputChanges($event)"></app-tree-view>
+
+  <button class="btn" (click)="secondRequest()" [disabled]="step === 4">Submit</button>
+
+</div>
+
+<div class="container-fluid" *ngIf="step === 5 || step == 6">
+  <h3>Add Properties</h3>
+  <div *ngIf="suggestedPropertyList"><h4 *ngIf="suggestedPropertyList.length > 0">Suggested Properties</h4></div>
+  <div class="topSpace" *ngFor="let suggestedProperty of suggestedPropertyList; let i = index">
+    <h4>Subject</h4>
+    <div class="row">
+      <div class="col-xs-3">
+        <b>{{suggestedProperty.subjectLabel}}</b>
+      </div>
+      <div class="col-xs-9">
+        {{suggestedProperty.subjectPath}}
+      </div>
+    </div>
+    <h4>Object</h4>
+    <div class="row">
+      <div class="col-xs-3">
+        <b>{{suggestedProperty.objectLabel}}</b>
+      </div>
+      <div class="col-xs-9">
+        {{suggestedProperty.objectPath}}
+      </div>
+    </div>
+    <h4>Property</h4>
+    <div class = row>
+      <div class="col-xs-5">
+        <select class="form-control" [(ngModel)]="suggestedPropertyList[i].property">
+          <option *ngFor="let prop of suggestedProperty.properties" value="{{prop}}">{{prop}}</option>
+          <option value="custom">Custom Property</option>
+        </select>
+      </div>
+      <div class="col-xs-7" *ngIf="suggestedPropertyList[i].property === customString">
+        <input type="text" placeholder="Custom Property" class="form-control" required [(ngModel)]="suggestedPropertyList[i].customProperty" #customProp="ngModel">
+        <div [hidden]="isURL(suggestedPropertyList[i].customProperty) || customProp.pristine"
+             class="alert alert-danger">
+          Property must be an URI!
+        </div>
+      </div>
+    </div>
+    <div class = "row bottomSpace">
+      <button class="btn" (click)="deleteSuggestedProperty(i)">Delete Property</button>
+    </div>
+  </div>
+
+  <h4>Custom Properties</h4>
+  <div class="container-fluid" *ngFor="let customProperty of customPropertyList; let i = index">
+    <h4>Subject</h4>
+    <select class="form-control" [(ngModel)]="customPropertyList[i].subjectUri">
+      <option *ngFor="let input of inputList" value="{{input.uri}}">{{input.label}} - {{input.path}}</option>
+      <option *ngFor="let output of outputList" value="{{output.uri}}">{{output.label}} - {{output.path}}</option>
+    </select>
+    <h4>Object</h4>
+    <select class="form-control" [(ngModel)]="customPropertyList[i].objectUri">
+      <option *ngFor="let input of inputList" value="{{input.uri}}">{{input.label}} - {{input.path}}</option>
+      <option *ngFor="let output of outputList" value="{{output.uri}}">{{output.label}} - {{output.path}}</option>
+    </select>
+    <h4>Property</h4>
+    <input type="text" placeholder="Custom Property" class="form-control" [(ngModel)]="customPropertyList[i].property" #customProp="ngModel" required>
+    <div [hidden]="isURL(customPropertyList[i].property) || customProp.pristine"
+         class="alert alert-danger">
+      Property must be an URI!
+    </div>
+    <div class = "row">
+      <button class="btn halfTopSpace" (click)="deleteCustomProperty(i)">Delete Property</button>
+    </div>
+  </div>
+  <div class = "row topSpace">
+    <button class="btn" (click)="addCustomProperty()">Add Property</button>
+  </div>
+
+  <button class="btn" (click)="fourthRequest()" [disabled]="step === 6">Submit</button>
+
+</div>
+
+<div class="container-fluid" *ngIf="step === 7">
+  <h3>Mapping Model</h3>
+  <div class="topSpace">
+    <textarea [(ngModel)]="model" class="form-control" rows="15"></textarea>
+  </div>
+  <div class="topSpace">
+    <button (click)="save()" class="btn">Save</button>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="step == 8">
+  <div class="alert alert-success">Mapping file generated.</div>
+</div>
+
