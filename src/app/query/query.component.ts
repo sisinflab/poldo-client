@@ -37,7 +37,7 @@ export class QueryComponent implements OnInit {
 
 
   checkMappingAndQuery() {
-    if (this.mappingFile.length === 0 || this.query.length === 0) {
+    if (this.mappingFile.length === 0 || this.query.length === 0 || this.querySent) {
       return true;
     } else {
       return false;
