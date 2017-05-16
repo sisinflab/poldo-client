@@ -1,0 +1,16 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT  ?place
+WHERE {
+    ?disease a dbo:Disease .
+    ?disease rdfs:label "fever" .
+    ?disease dbo:location ?place .
+    
+    SERVICE <http://dbpedia.org/sparql> {
+        ?place a dbo:Place ;
+               dbo:populationTotal ?population .
+        FILTER (?population > 1000000).
+ 
+    }
+}
