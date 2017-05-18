@@ -99,17 +99,17 @@ export class QueryComponent implements OnInit {
     this.isExample = true;
   }
 
-  loadFlutrackerExample() {
+  loadFlutrackExample() {
     if (this.pendingRequestQuery) {
       this.pendingRequestQuery.unsubscribe();
     }
     if (this.pendingRequestMapping) {
       this.pendingRequestMapping.unsubscribe();
     }
-    this.pendingRequestQuery = this.http.get('./examples/flutracker/query.txt')
+    this.pendingRequestQuery = this.http.get('./examples/flutrack/query.txt')
       .map((responseData) => responseData.text())
       .subscribe(responseData => this.query = responseData);
-    this.pendingRequestMapping = this.http.get('./examples/flutracker/flutracker.ttl')
+    this.pendingRequestMapping = this.http.get('./examples/flutrack/flutracker.ttl')
       .map((responseData) => responseData.text())
       .subscribe(responseData => this.mappingFile = responseData);
     this.isExample = true;

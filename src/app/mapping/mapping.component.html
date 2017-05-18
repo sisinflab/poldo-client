@@ -2,6 +2,7 @@
 <div class="container-fluid" *ngIf="step === 1 || step == 2">
   <p></p>
   <button class="btn" (click)="loadForecastExample()">Load Forecast Example</button>
+  <button class="btn" (click)="loadFlutrackExample()">Load FluTrack Example</button>
   <p></p>
   <form (ngSubmit)="firstRequest()" #firstForm="ngForm">
     <div class="form-group">

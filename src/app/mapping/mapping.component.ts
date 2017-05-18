@@ -143,6 +143,22 @@ export class MappingComponent implements OnInit {
     this.language = 'xml';
   }
 
+  loadFlutrackExample () {
+    if (this.pendingRequestURL) {
+      this.pendingRequestURL.unsubscribe();
+    }
+    if (this.pendingRequestOutput) {
+      this.pendingRequestOutput.unsubscribe();
+    }
+    this.pendingRequestURL = this.http.get('./examples/flutrack/url.txt')
+      .map((responseData) => responseData.text())
+      .subscribe(responseData => this.serviceURL = responseData);
+    this.pendingRequestOutput = this.http.get('./examples/flutrack/output.txt')
+      .map((responseData) => responseData.text())
+      .subscribe(responseData => this.output = responseData);
+    this.language = 'json';
+  }
+
   save() {
     const blob = new Blob([this.model], { type: 'text/ttl'});
     const currentDate = new Date();
