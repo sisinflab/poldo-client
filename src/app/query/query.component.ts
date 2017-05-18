@@ -72,7 +72,7 @@ export class QueryComponent implements OnInit {
         } );
 
     this.querySent = true;
-    //this.showAlert('Query Sent', 'Wait for the answer...');
+    // this.showAlert('Query Sent', 'Wait for the answer...');
 
   }
 
