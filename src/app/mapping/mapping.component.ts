@@ -449,26 +449,6 @@ export class MappingComponent implements OnInit {
 
     this.model = response.text();
 
-    /*
-
-    const blob = new Blob([response.text()], { type: 'text/ttl'});
-    const currentDate = new Date();
-    const dateTime = currentDate.getDate() + '/'
-      + (currentDate.getMonth() + 1)  + '/'
-      + currentDate.getFullYear() + ' @ '
-      + currentDate.getHours() + ':'
-      + currentDate.getMinutes() + ':'
-      + currentDate.getSeconds();
-
-    const fileName = 'FileMap' + dateTime + '.ttl';
-
-    const fileSaver = require('file-saver');
-
-    fileSaver.saveAs(blob, fileName);
-
-    */
-
-
   }
 
 
