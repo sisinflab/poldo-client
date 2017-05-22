@@ -1,4 +1,3 @@
-
 <div class="container-fluid" *ngIf="step === 1 || step == 2">
   <p></p>
   <button class="btn" (click)="loadForecastExample()">Load Forecast Example</button>
@@ -31,7 +30,8 @@
 
 
     <div class="form-group">
-      <label class="radio-inline"><input type="radio" name="language" [(ngModel)]="language" value="xml" required>XML</label>
+      <label class="radio-inline"><input type="radio" name="language" [(ngModel)]="language" value="xml"
+                                         required>XML</label>
       <label class="radio-inline"><input type="radio" name="language" [(ngModel)]="language" value="json">JSON</label>
     </div>
 
@@ -51,36 +51,97 @@
   <h3>Inputs</h3>
   <div class="form-group bottomSpace" *ngFor="let input of inputList; let i = index">
     <div class="row">
-      <div class="col-xs-3"><b>Label:</b></div><div class="col-xs-9">{{input.label}}</div>
+      <div class="col-xs-3"><b>Label:</b></div>
+      <div class="col-xs-9">{{input.label}}</div>
     </div>
     <div class="row">
-      <div class="col-xs-3"><b>URI:</b></div><div class="col-xs-9">{{input.uri}}</div>
+      <div class="col-xs-3"><b>URI:</b></div>
+      <div class="col-xs-9">{{input.uri}}</div>
     </div>
     <div class="row">
-      <div class="col-xs-3"><label for="mandatory">Mandatory:</label></div><div class="col-xs-9"> <input type="checkbox" id="mandatory" [ngModel]="inputList[i].isMandatory" (ngModelChange)="changeIsMandatory($event, i)"></div>
+      <div class="col-xs-3"><label for="mandatory">Mandatory:</label></div>
+      <div class="col-xs-9"><input type="checkbox" id="mandatory" [ngModel]="inputList[i].isMandatory"
+                                   (ngModelChange)="changeIsMandatory($event, i)"></div>
     </div>
     <div class="row">
-      <div class="col-xs-3"><label for="datatype">Datatype Property:</label></div><div class="col-xs-9"><input type="checkbox" id="datatype" [ngModel]="inputList[i].isDatatypeProperty" (ngModelChange)="changeIsDatatypeProperty($event, i)"></div>
+      <div class="col-xs-3"><label for="datatype">Datatype Property:</label></div>
+      <div class="col-xs-9"><input type="checkbox" id="datatype" [ngModel]="inputList[i].isDatatypeProperty"
+                                   (ngModelChange)="changeIsDatatypeProperty($event, i)"></div>
     </div>
     <div class="row">
-      <div *ngIf="!inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="class" [ngModel]="inputList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
-      <div *ngIf="inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control" placeholder="samePropertyOf" [ngModel]="inputList[i].rdfClass" (ngModelChange)="changeRdfClass($event, i)"></div>
+      <div *ngIf="!inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control"
+                                                                             placeholder="class"
+                                                                             [ngModel]="inputList[i].rdfClass"
+                                                                             (ngModelChange)="changeRdfClass($event, i)">
+      </div>
+      <div *ngIf="inputList[i].isDatatypeProperty" class="col-xs-12"><input type="text" class="form-control"
+                                                                            placeholder="samePropertyOf"
+                                                                            [ngModel]="inputList[i].rdfClass"
+                                                                            (ngModelChange)="changeRdfClass($event, i)">
+      </div>
     </div>
     <div [hidden]="isURL(inputList[i].rdfClass) || isClassPristine(i)"
          class="alert alert-danger">
       Class must be an URI!
     </div>
     <div class="row">
-      <div class="col-xs-12"><input type="text" class="form-control" id="value" placeholder="default value" [ngModel]="inputList[i].defaultValue" (ngModelChange)="changeDefaultValue($event, i)"></div>
+      <div class="col-xs-12"><input type="text" class="form-control" id="value" placeholder="default value"
+                                    [ngModel]="inputList[i].defaultValue"
+                                    (ngModelChange)="changeDefaultValue($event, i)"></div>
     </div>
   </div>
   <h3>Outputs</h3>
 
   <app-tree-view [children]="outputs" [path]="separator" (outputChange)="writeOutputChanges($event)"></app-tree-view>
 
-  <button class="btn" (click)="secondRequest()" [disabled]="step === 4">Submit</button>
+  <h3>Custom Resources</h3>
+  <div class="container-fluid bottomSpace" *ngFor="let customResource of customResourceList; let i = index">
+    <h4>Custom Resource {{i}}</h4>
+    <div class="form-group bottomSpace" *ngFor="let elementCustomResourceIsObjectOf of customResource.customResourceIsObjectOf; let j = index">
+      <div class="row">
+        <input type="text" class="form-control"
+               placeholder="Property URI"
+               [(ngModel)]="elementCustomResourceIsObjectOf.propertyURI">
+      </div>
+      <div class="row">
+        <input type="text" class="form-control"
+               placeholder="Subject URI"
+               [(ngModel)]="elementCustomResourceIsObjectOf.subjectURI">
+      </div>
+      <div class="row">
+        <button class="btn" (click)="deleteCustomResourceIsObjectOf(i, j)">Delete Property</button>
+      </div>
+    </div>
+    <div class="form-group bottomSpace" *ngFor="let elementCustomResourceIsSubjectOf of customResource.customResourceIsSubjectOf; let j = index">
+      <div class="row">
+        <input type="text" class="form-control"
+               placeholder="Property URI"
+               [(ngModel)]="elementCustomResourceIsSubjectOf.propertyURI">
+      </div>
+      <div class="row">
+        <input type="text" class="form-control"
+               placeholder="Object URI"
+               [(ngModel)]="elementCustomResourceIsSubjectOf.objectURI">
+      </div>
+      <div class="row">
+        <button class="btn" (click)="deleteCustomResourceIsSubjectOf(i, j)">Delete Property</button>
+      </div>
+    </div>
+    <div>
+      <button class="btn" (click)="addCustomResourceIsObjectOf(i)">Add Property with Custom Resource as Object</button>
+      <button class="btn" (click)="addCustomResourceIsSubjectOf(i)">Add Property with Custom Resource as Subject</button>
+    </div>
+  </div>
 
+  <div>
+    <button class="btn" (click)="addCustomResource()">Add Custom Resource</button>
+  </div>
+  <br>
+  <div>
+    <button class="btn" (click)="secondRequest()" [disabled]="step === 4">Submit</button>
+  </div>
 </div>
+
 
 <div class="container-fluid" *ngIf="step === 5 || step == 6">
   <h3>Add Properties</h3>
@@ -105,7 +166,7 @@
       </div>
     </div>
     <h4>Property</h4>
-    <div class = row>
+    <div class=row>
       <div class="col-xs-5">
         <select class="form-control" [(ngModel)]="suggestedPropertyList[i].property">
           <option *ngFor="let prop of suggestedProperty.properties" value="{{prop}}">{{prop}}</option>
@@ -113,14 +174,15 @@
         </select>
       </div>
       <div class="col-xs-7" *ngIf="suggestedPropertyList[i].property === customString">
-        <input type="text" placeholder="Custom Property" class="form-control" required [(ngModel)]="suggestedPropertyList[i].customProperty" #customProp="ngModel">
+        <input type="text" placeholder="Custom Property" class="form-control" required
+               [(ngModel)]="suggestedPropertyList[i].customProperty" #customProp="ngModel">
         <div [hidden]="isURL(suggestedPropertyList[i].customProperty) || customProp.pristine"
              class="alert alert-danger">
           Property must be an URI!
         </div>
       </div>
     </div>
-    <div class = "row bottomSpace">
+    <div class="row bottomSpace">
       <button class="btn" (click)="deleteSuggestedProperty(i)">Delete Property</button>
     </div>
   </div>
@@ -138,16 +200,17 @@
       <option *ngFor="let output of outputList" value="{{output.uri}}">{{output.label}} - {{output.path}}</option>
     </select>
     <h4>Property</h4>
-    <input type="text" placeholder="Custom Property" class="form-control" [(ngModel)]="customPropertyList[i].property" #customProp="ngModel" required>
+    <input type="text" placeholder="Custom Property" class="form-control" [(ngModel)]="customPropertyList[i].property"
+           #customProp="ngModel" required>
     <div [hidden]="isURL(customPropertyList[i].property) || customProp.pristine"
          class="alert alert-danger">
       Property must be an URI!
     </div>
-    <div class = "row">
+    <div class="row">
       <button class="btn halfTopSpace" (click)="deleteCustomProperty(i)">Delete Property</button>
     </div>
   </div>
-  <div class = "row topSpace">
+  <div class="row topSpace">
     <button class="btn" (click)="addCustomProperty()">Add Property</button>
   </div>
 

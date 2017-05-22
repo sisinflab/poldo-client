@@ -5,6 +5,9 @@ import {Modal} from 'angular2-modal/plugins/bootstrap/modal';
 import {MappingInput} from '../inputModel';
 import {MappingOutput} from '../outputModel';
 import {AddProperty} from '../addPropertyModel';
+import {AddResource} from '../addResourceModel';
+import {CustomResourceIsSubjectOf} from '../CustomResourceIsSubjectOfModel';
+import {CustomResourceIsObjectOf} from '../CustomResourceIsObjectOfModel';
 
 @Component({
   selector: 'app-mapping',
@@ -29,6 +32,8 @@ export class MappingComponent implements OnInit {
   jsonResponse;
   outputs;
 
+  customResourceList: Array<AddResource>;
+
   inputList: Array<MappingInput>;
   editOutputList: Array<MappingOutput>;
 
@@ -42,6 +47,7 @@ export class MappingComponent implements OnInit {
     this.editOutputList = [];
     this.suggestedPropertyList = [];
     this.customPropertyList = [];
+    this.customResourceList = [];
   }
 
   isClassPristine(i) {
@@ -55,6 +61,7 @@ export class MappingComponent implements OnInit {
       }
     }
   }
+
 
   isURL(str) {
     const pattern = new RegExp('^(https?:\\/\\/)' + // protocol
@@ -85,6 +92,33 @@ export class MappingComponent implements OnInit {
 
   addCustomProperty() {
     this.customPropertyList.push(new AddProperty());
+  }
+
+  addCustomResource() {
+    const customResource = new AddResource();
+    customResource.customResourceIsSubjectOf = [];
+    customResource.customResourceIsObjectOf = [];
+    this.customResourceList.push(customResource);
+  }
+
+  deleteCustomResource(i) {
+    this.customResourceList.splice(i, 1);
+  }
+
+  addCustomResourceIsSubjectOf(i) {
+    this.customResourceList[i].customResourceIsSubjectOf.push(new CustomResourceIsSubjectOf());
+  }
+
+  deleteCustomResourceIsSubjectOf(i, j) {
+    this.customResourceList[i].customResourceIsSubjectOf.splice(j, 1);
+  }
+
+  addCustomResourceIsObjectOf(i) {
+    this.customResourceList[i].customResourceIsObjectOf.push(new CustomResourceIsObjectOf());
+  }
+
+  deleteCustomResourceIsObjectOf(i, j) {
+    this.customResourceList[i].customResourceIsObjectOf.splice(j, 1);
   }
 
   changeIsMandatory (newValue, i) {
@@ -211,7 +245,6 @@ export class MappingComponent implements OnInit {
     this.outputs = this.jsonResponse.Output;
 
     this.inputList = this.jsonResponse.Input;
-    console.log(this.inputList[0].classPristine);
 
     this.outputList = this.jsonResponse.outputList;
 
@@ -226,6 +259,10 @@ export class MappingComponent implements OnInit {
 
     const inputParam = [];
     const outputParam = [];
+
+    const customResources = [];
+    const customResourcesIsObject = [];
+    const customResourcesIsSubject = [];
 
     for (const input of this.inputList) {
       if (input.isEdited) {
@@ -268,17 +305,39 @@ export class MappingComponent implements OnInit {
       }
     }
 
+    for (const customResource of this.customResourceList) {
+      for (const resourceIsSubject of customResource.customResourceIsSubjectOf) {
+        const resourceIsSubjectObj = {};
+        resourceIsSubjectObj['propertyURI'] = resourceIsSubject.propertyURI;
+        resourceIsSubjectObj['objectURI'] = resourceIsSubject.objectURI;
+        customResourcesIsSubject.push(resourceIsSubjectObj);
+      }
+      for (const resourceIsObject of customResource.customResourceIsObjectOf) {
+        const resourceIsObjectObj = {};
+        resourceIsObjectObj['propertyURI'] = resourceIsObject.propertyURI;
+        resourceIsObjectObj['subjectURI'] = resourceIsObject.subjectURI;
+        customResourcesIsObject.push(resourceIsObjectObj);
+      }
+      const customResourceObj = {};
+      customResourceObj['resourceIsSubjectOf'] = customResourcesIsSubject;
+      customResourceObj['resourceIsObjectOf'] = customResourcesIsObject;
+      customResources.push(customResourceObj);
+    }
+
 
     const param = {};
 
 
     param['editInput'] = inputParam;
     param['editOutput'] = outputParam;
+    param['addResource'] = customResources;
     param['model'] = this.model;
 
     const params = new URLSearchParams();
 
     params.append('json', JSON.stringify(param));
+
+    console.log(params);
 
     this.http.post(AppComponent.endpointURL + '/endpoint/edit', params)
       .subscribe(responseData => this.secondResponse(responseData),
@@ -319,7 +378,7 @@ export class MappingComponent implements OnInit {
   }
 
 
-  thirdResponse(response){
+  thirdResponse(response) {
     this.step++;
 
     this.jsonResponse = response.json();
@@ -328,7 +387,7 @@ export class MappingComponent implements OnInit {
 
   }
 
-  fourthRequest(){
+  fourthRequest() {
     this.step++;
 
     const params = new URLSearchParams();
@@ -338,7 +397,7 @@ export class MappingComponent implements OnInit {
     jsonParam['model'] = this.model;
 
     const addPropertyList = [];
-    if (this.suggestedPropertyList){
+    if (this.suggestedPropertyList) {
       for (const prop of this.suggestedPropertyList){
         const property = {};
         property['subjectURI'] = prop.subjectUri;
