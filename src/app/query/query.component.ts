@@ -109,7 +109,7 @@ export class QueryComponent implements OnInit {
     this.pendingRequestQuery = this.http.get('./examples/flutrack/query.txt')
       .map((responseData) => responseData.text())
       .subscribe(responseData => this.query = responseData);
-    this.pendingRequestMapping = this.http.get('./examples/flutrack/flutracker.ttl')
+    this.pendingRequestMapping = this.http.get('./examples/flutrack/flutrack.ttl')
       .map((responseData) => responseData.text())
       .subscribe(responseData => this.mappingFile = responseData);
     this.isExample = true;
