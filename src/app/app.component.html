@@ -1,15 +1,19 @@
-<div class="jumbotron">
-  <h1>POLDO</h1>
-  <h2>Exposing the Deep Web in the Linked Data Cloud</h2>
+<div style="background-color: rgb(240,110,45)" class="jumbotron">
+  <div class="container">
+    <h1 style="color: white">PoLDo Project</h1>
+    <h2 style="color: white">Exposing the Deep Web in the Linked Data Cloud</h2>
+  </div>
 </div>
-<nav class="nav navbar-default">
+<nav class="nav navbar-default container">
   <ul class="nav navbar-nav">
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Query</a></li>
-    <li routerLinkActive="active"><a routerLink="/mapping">Generate Mapping</a></li>
-    <li routerLinkActive="active"><a routerLink="/merge">Merge Mapping</a></li>
-    <li routerLinkActive="active"><a routerLink="/edit-mapping">Edit Mapping</a></li>
+    <li routerLinkActive="activeMenu" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Query</a></li>
+    <li routerLinkActive="activeMenu"><a routerLink="/mapping">Generate Mapping</a></li>
+    <li routerLinkActive="activeMenu"><a routerLink="/merge">Merge Mapping</a></li>
+    <li routerLinkActive="activeMenu"><a routerLink="/edit-mapping">Edit Mapping</a></li>
   </ul>
 </nav>
 <p>&nbsp;</p>
-<router-outlet></router-outlet>
-<span defaultOverlayTarget></span>
+<div class="container">
+  <router-outlet></router-outlet>
+  <span defaultOverlayTarget></span>
+</div>

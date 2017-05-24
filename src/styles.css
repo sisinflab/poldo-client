@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
-  margin: 5%
+  /*margin: 5%*/
 }
 
 h1 {
@@ -25,6 +25,26 @@ h4 {
 table, th, td {
   padding: 15px;
   text-align: left;
+}
+
+.btn {
+  background-color: rgb(240,110,45) ;
+}
+
+.nav.navbar-default li a, .btn {
+  color: white;
+}
+
+.nav.navbar-default {
+  background-color: rgb(240,110,45)
+}
+
+.activeMenu {
+  background-color: rgb(240, 150, 100);
+}
+
+.btn:hover {
+  color: #404040 ;
 }
 
 .row{
