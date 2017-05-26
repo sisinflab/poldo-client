@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Http, URLSearchParams, Response} from '@angular/http';
 import {Modal} from 'angular2-modal/plugins/bootstrap/modal';
 import 'rxjs/Rx';
@@ -9,7 +9,7 @@ import {AppComponent} from '../app.component';
   templateUrl: './merge.component.html',
   styleUrls: ['./merge.component.css']
 })
-export class MergeComponent implements OnInit {
+export class MergeComponent implements AfterViewInit {
 
   // if i use fileArray for ngFor it doesn't work.
   fileArray = [];
@@ -25,7 +25,8 @@ export class MergeComponent implements OnInit {
     this.fileNameArray[1] = 'file not selected';
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    AppComponent.adjustFrame();
   }
 
   moreThanTwoFiles() {

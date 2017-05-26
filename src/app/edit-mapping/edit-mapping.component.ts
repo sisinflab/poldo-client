@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-edit-mapping',
   templateUrl: './edit-mapping.component.html',
   styleUrls: ['./edit-mapping.component.css']
 })
-export class EditMappingComponent implements OnInit {
+export class EditMappingComponent implements AfterViewInit {
 
   mappingFile;
 
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    AppComponent.adjustFrame();
   }
 
   loadMapping(event) {

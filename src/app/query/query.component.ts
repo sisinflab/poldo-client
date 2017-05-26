@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Http, Response, URLSearchParams} from '@angular/http';
 import {Modal} from 'angular2-modal/plugins/bootstrap/modal';
 import {AppComponent} from '../app.component';
@@ -8,7 +8,7 @@ import {AppComponent} from '../app.component';
   templateUrl: './query.component.html',
   styleUrls: ['./query.component.css']
 })
-export class QueryComponent implements OnInit {
+export class QueryComponent implements AfterViewChecked {
 
   mappingFile = '';
   query= 'Select * where { ?s ?p ?o }';
@@ -81,6 +81,7 @@ export class QueryComponent implements OnInit {
     this.jsonResponse = response.json();
     console.log(this.jsonResponse);
     this.responseIsValid = true;
+    AppComponent.adjustFrame();
   }
 
   loadForecastExample() {
@@ -100,6 +101,7 @@ export class QueryComponent implements OnInit {
   }
 
   loadFlutrackExample() {
+    this.showAlert('Info', 'Be patient while running this example, it may take some time!');
     if (this.pendingRequestQuery) {
       this.pendingRequestQuery.unsubscribe();
     }
@@ -127,7 +129,8 @@ export class QueryComponent implements OnInit {
   }
 
 
-  ngOnInit() {
+  ngAfterViewChecked() {
+    AppComponent.adjustFrame();
   }
 
 }

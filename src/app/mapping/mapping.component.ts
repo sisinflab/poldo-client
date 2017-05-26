@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Http, URLSearchParams, Response} from '@angular/http';
 import {AppComponent} from '../app.component';
 import {Modal} from 'angular2-modal/plugins/bootstrap/modal';
@@ -14,7 +14,7 @@ import {CustomResourceIsObjectOf} from '../CustomResourceIsObjectOfModel';
   templateUrl: './mapping.component.html',
   styleUrls: ['./mapping.component.css']
 })
-export class MappingComponent implements OnInit {
+export class MappingComponent implements AfterViewChecked {
 
   customString = 'custom';
   separator = '/';
@@ -54,7 +54,7 @@ export class MappingComponent implements OnInit {
     if (this.inputList[i].classPristine === undefined) {
       return true;
     } else {
-      if (this.inputList[i].classPristine.valueOf() === true){
+      if (this.inputList[i].classPristine.valueOf() === true) {
         return true;
       } else {
         return false;
@@ -158,7 +158,8 @@ export class MappingComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngAfterViewChecked() {
+    AppComponent.adjustFrame();
   }
 
   loadForecastExample () {
