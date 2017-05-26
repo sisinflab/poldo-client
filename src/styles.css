@@ -27,8 +27,16 @@ table, th, td {
   text-align: left;
 }
 
+.container-fluid {
+  padding-right: 0;
+}
+
 .btn {
-  background-color: rgb(240,110,45) ;
+  background-color: rgb(240,110,45);
+}
+
+.btn:hover {
+  background-color: rgb(240, 150, 100);
 }
 
 .nav.navbar-default li a, .btn {
