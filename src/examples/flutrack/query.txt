@@ -1,3 +1,9 @@
+# This query calls flutrack.org API, a system that detects flu symptoms using Twitter
+# Geocode.xyz allows to retreive the name of the nearest city related to latitude and longitude of the tweets
+# Using city names with DBpedia Lookup, URIs of ?place are retreived
+# Using the retreived URI it’s possible to query dbpedia SPQRQL endpoint
+# We ask to select only cities with the population bigger than 1.000.000
+
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
