@@ -76,7 +76,7 @@ poldo:api-flutrack-org--output1
 
 poldo:api-flutrack-org--input1
         a                    poldo:api-flutrack-org--input1key ;
-        poldo:hasFixedValue  "100" ;
+        poldo:hasFixedValue  "50" ;
         poldo:isRequired     true ;
         poldo:paramName      "limit" .
 

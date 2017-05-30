@@ -1,1 +1,1 @@
-http://api.flutrack.org/?s=fever&time=7
+http://api.flutrack.org/?s=fever&time=7&limit=10
