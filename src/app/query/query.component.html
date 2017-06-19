@@ -28,7 +28,7 @@
   <tbody>
   <tr *ngFor="let binding of jsonResponse.results.bindings; let i = index">
     <td *ngFor="let entry of jsonResponse.head.vars | keyValuePipe; let j = index">
-      {{binding[entry.value].value}}
+      <div *ngIf="binding[entry.value]">{{binding[entry.value].value}}</div>
     </td>
   </tr>
   </tbody>
