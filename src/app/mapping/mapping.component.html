@@ -89,6 +89,11 @@
                                     [ngModel]="inputList[i].defaultValue"
                                     (ngModelChange)="changeDefaultValue($event, i)"></div>
     </div>
+    <div class="row">
+      <div class="col-xs-12"><input type="text" class="form-control" id="findUri" placeholder="name of the class implementing findUri interface"
+                                    [ngModel]="inputList[i].findUri"
+                                    (ngModelChange)="changeFindUri($event, i)"></div>
+    </div>
   </div>
   <h3>Outputs</h3>
 
@@ -97,6 +102,10 @@
   <h3>Custom Resources</h3>
   <div class="container-fluid bottomSpace" *ngFor="let customResource of customResourceList; let i = index">
     <h4>Custom Resource {{i}}</h4>
+    <div class="row">
+      <div class="col-xs-12"><input type="text" class="form-control" id="findUriCustomResource" placeholder="name of the class implementing findUri interface"
+                                    [(ngModel)]="customResource.findUri"></div>
+    </div>
     <div class="form-group bottomSpace" *ngFor="let elementCustomResourceIsObjectOf of customResource.customResourceIsObjectOf; let j = index">
       <div class="row">
         <input type="text" class="form-control"

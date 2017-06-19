@@ -131,6 +131,11 @@ export class MappingComponent implements AfterViewChecked {
     this.inputList[i].isEdited = true;
   }
 
+  changeFindUri (newValue, i) {
+    this.inputList[i].findUri = newValue;
+    this.inputList[i].isEdited = true;
+  }
+
   changeRdfClass (newValue, i) {
     this.inputList[i].rdfClass = newValue;
     this.inputList[i].isEdited = true;
@@ -281,6 +286,9 @@ export class MappingComponent implements AfterViewChecked {
         if (input.rdfClass) {
           inputEdit['classRDF'] = input.rdfClass;
         }
+        if (input.findUri) {
+          inputEdit['findUri'] = input.findUri;
+        }
         inputParam.push(inputEdit);
       }
     }
@@ -301,6 +309,9 @@ export class MappingComponent implements AfterViewChecked {
         if (output.rdfClass) {
           outputEdit['classRDF'] = output.rdfClass;
         }
+        if (output.findUri) {
+          outputEdit['findUri'] = output.findUri;
+        }
 
         outputParam.push(outputEdit);
       }
@@ -320,6 +331,9 @@ export class MappingComponent implements AfterViewChecked {
         customResourcesIsObject.push(resourceIsObjectObj);
       }
       const customResourceObj = {};
+      if (customResource.findUri) {
+        customResourceObj['findUri'] = customResource.findUri;
+      }
       customResourceObj['resourceIsSubjectOf'] = customResourcesIsSubject;
       customResourceObj['resourceIsObjectOf'] = customResourcesIsObject;
       customResources.push(customResourceObj);

@@ -27,7 +27,7 @@ export class TreeViewComponent implements OnInit, OnChanges {
     if (this.outputSubList[i].classPristine === undefined) {
       return true;
     } else {
-      if (this.outputSubList[i].classPristine.valueOf() === true){
+      if (this.outputSubList[i].classPristine.valueOf() === true) {
         return true;
       } else {
         return false;
@@ -67,8 +67,13 @@ export class TreeViewComponent implements OnInit, OnChanges {
     this.outputSubList[i].isEdited = true;
   }
 
+  changeFindUri(newValue, i) {
+    this.outputSubList[i].findUri = newValue;
+    this.outputSubList[i].isEdited = true;
+  }
+
   emitChanges(childChanges: Array<MappingOutput>) {
-    if (childChanges == null){
+    if (childChanges == null) {
       this.outputChange.emit(this.outputSubList);
     } else {
       this.outputChange.emit(this.outputSubList.concat(childChanges));
@@ -79,26 +84,26 @@ export class TreeViewComponent implements OnInit, OnChanges {
     this.emitChanges(null);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     // add every child to outputSubList
-    if (this.children){
+    if (this.children) {
       for (const child of this.children) {
-        //console.log(child);
+        // console.log(child);
         const outputChild = new MappingOutput();
         outputChild.uri = child.uri;
         outputChild.label = child.label;
-        if (child.hasValue){
+        if (child.hasValue) {
           outputChild.hasValue = child.hasValue;
           outputChild.contentType = child.contentType;
         }
 
         this.outputSubList.push(outputChild);
 
-        //console.log(outputChild.label);
+        // console.log(outputChild.label);
 
       }
     }
-    //this.outputChange.emit(this.outputSubList);
+    // this.outputChange.emit(this.outputSubList);
   }
 
 

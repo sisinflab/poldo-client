@@ -8,5 +8,5 @@ export class MappingInput {
   isEdited = false;
   defaultValue: string;
   path: string;
-
+  findUri: string;
 }

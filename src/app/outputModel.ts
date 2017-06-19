@@ -8,4 +8,5 @@ export class MappingOutput {
   contentType: string;
   isEdited = false;
   path: string;
+  findUri: string;
 }

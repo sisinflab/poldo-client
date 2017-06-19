@@ -1,4 +1,4 @@
-#this query calls openwheatermap.org and ask for the weather forcast of ?city resource 
+#this query calls openwheatermap.org and ask for the weather forecast of ?city resource 
 
 select ?prediction ?begin ?end where { 
 ?city <http://www.w3.org/2000/01/rdf-schema#label> "London" . 
