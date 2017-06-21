@@ -38,7 +38,12 @@
     <div class="form-group">
       <label for="namespace">Custom Namespace</label>
       <input type="text" class="form-control" id="namespace"
-             [(ngModel)]="namespace" name="namespace">
+             [(ngModel)]="namespace" name="namespace"
+             #namespaceInput="ngModel">
+    </div>
+    <div [hidden]="isURL(namespace) || namespaceInput.pristine || namespace.length === 0"
+         class="alert alert-danger">
+      Namespace must be an URI!
     </div>
 
     <button type="submit" class="btn" [disabled]="step === 2">Submit</button>
@@ -90,7 +95,8 @@
                                     (ngModelChange)="changeDefaultValue($event, i)"></div>
     </div>
     <div class="row">
-      <div class="col-xs-12"><input type="text" class="form-control" id="findUri" placeholder="name of the class implementing findUri interface"
+      <div class="col-xs-12"><input type="text" class="form-control" id="findUri"
+                                    placeholder="name of the class implementing findUri interface"
                                     [ngModel]="inputList[i].findUri"
                                     (ngModelChange)="changeFindUri($event, i)"></div>
     </div>
@@ -103,10 +109,12 @@
   <div class="container-fluid bottomSpace" *ngFor="let customResource of customResourceList; let i = index">
     <h4>Custom Resource {{i}}</h4>
     <div class="row">
-      <div class="col-xs-12"><input type="text" class="form-control" id="findUriCustomResource" placeholder="name of the class implementing findUri interface"
+      <div class="col-xs-12"><input type="text" class="form-control" id="findUriCustomResource"
+                                    placeholder="name of the class implementing findUri interface"
                                     [(ngModel)]="customResource.findUri"></div>
     </div>
-    <div class="form-group bottomSpace" *ngFor="let elementCustomResourceIsObjectOf of customResource.customResourceIsObjectOf; let j = index">
+    <div class="form-group bottomSpace"
+         *ngFor="let elementCustomResourceIsObjectOf of customResource.customResourceIsObjectOf; let j = index">
       <div class="row">
         <input type="text" class="form-control"
                placeholder="Property URI"
@@ -121,7 +129,8 @@
         <button class="btn" (click)="deleteCustomResourceIsObjectOf(i, j)">Delete Property</button>
       </div>
     </div>
-    <div class="form-group bottomSpace" *ngFor="let elementCustomResourceIsSubjectOf of customResource.customResourceIsSubjectOf; let j = index">
+    <div class="form-group bottomSpace"
+         *ngFor="let elementCustomResourceIsSubjectOf of customResource.customResourceIsSubjectOf; let j = index">
       <div class="row">
         <input type="text" class="form-control"
                placeholder="Property URI"
@@ -138,7 +147,8 @@
     </div>
     <div>
       <button class="btn" (click)="addCustomResourceIsObjectOf(i)">Add Property with Custom Resource as Object</button>
-      <button class="btn" (click)="addCustomResourceIsSubjectOf(i)">Add Property with Custom Resource as Subject</button>
+      <button class="btn" (click)="addCustomResourceIsSubjectOf(i)">Add Property with Custom Resource as Subject
+      </button>
     </div>
   </div>
 
