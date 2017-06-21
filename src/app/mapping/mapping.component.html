@@ -42,7 +42,7 @@
     </div>
 
     <button type="submit" class="btn" [disabled]="step === 2">Submit</button>
-    <button type="button" class="btn" (click)="firstForm.reset()">Reset</button>
+    <button type="button" class="btn" (click)="firstForm.reset()" [disabled]="step === 2">Reset</button>
 
   </form>
 </div>
