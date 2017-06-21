@@ -85,7 +85,7 @@
                                                                             (ngModelChange)="changeRdfClass($event, i)">
       </div>
     </div>
-    <div [hidden]="isURL(inputList[i].rdfClass) || isClassPristine(i)"
+    <div [hidden]="isURL(inputList[i].rdfClass) || isClassPristine(i) || inputList[i].rdfClass.length === 0"
          class="alert alert-danger">
       Class must be an URI!
     </div>
