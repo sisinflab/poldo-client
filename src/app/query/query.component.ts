@@ -85,6 +85,7 @@ export class QueryComponent implements AfterViewChecked {
   }
 
   loadForecastExample() {
+    this.reset();
     if (this.pendingRequestQuery) {
       this.pendingRequestQuery.unsubscribe();
     }
@@ -101,6 +102,7 @@ export class QueryComponent implements AfterViewChecked {
   }
 
   loadFlutrackExample() {
+    this.reset();
     this.showAlert('Info', 'Be patient while running this example, it may take some time!');
     if (this.pendingRequestQuery) {
       this.pendingRequestQuery.unsubscribe();
