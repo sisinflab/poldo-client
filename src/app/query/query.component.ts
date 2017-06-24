@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ViewChild} from '@angular/core';
 import {Http, Response, URLSearchParams} from '@angular/http';
 import {Modal} from 'angular2-modal/plugins/bootstrap/modal';
 import {AppComponent} from '../app.component';
