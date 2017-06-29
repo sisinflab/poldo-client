@@ -53,7 +53,7 @@
 </div>
 
 <div class="container-fluid" *ngIf="step === 3 || step == 4">
-  <h3>Inputs</h3>
+  <h3 *ngIf="inputList.length != 0">Inputs</h3>
   <div class="form-group bottomSpace" *ngFor="let input of inputList; let i = index">
     <div class="row">
       <div class="col-xs-3"><b>Label:</b></div>
